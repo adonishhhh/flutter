@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'dart:async';
 
+import './productmanager.dart';
+
 class SplashScreen extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -12,14 +14,16 @@ class SplashScreen extends StatefulWidget{
 }
 
 class _SplashScreen extends State<SplashScreen>{
-
+String startingProduct;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(
       seconds: 5,
-    ),(){
+    ), (){
+
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductManager(startingProduct)));
       print("hello");
     }
     );

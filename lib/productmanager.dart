@@ -22,11 +22,14 @@ class ProductManager extends StatefulWidget{
 
 class _ProductManager extends State<ProductManager>{
  List<String> _products = [];
-
+ int _selectedIndex = 0;
  @override
   void initState() {
     // TODO: implement initState
-   _products.add(widget.startingProduct);
+   if(widget.startingProduct != null){
+     _products.add(widget.startingProduct);
+   }
+
     super.initState();
   }
 
@@ -44,38 +47,85 @@ class _ProductManager extends State<ProductManager>{
     });
   }
 
+  Widget _Nested(){
+    return NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool inneBoxIsScrolled){
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.red,
+              expandedHeight: 300.0,
+              floating: false,
+              pinned: true,
+              flexibleSpace:FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text("Ecommerce",style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24.0,
+                ),
+                ),
+                background: Image.asset("assets/th.jpg",
+                fit: BoxFit.cover,
+                ),
+
+              ) ,
+              actions: <Widget>[
+              IconButton(icon: Icon(Icons.add_circle), onPressed: (){
+                setState(() {
+                  _products.add("Vehicle Management");
+                });
+              }),
+                IconButton(icon: Icon(Icons.search), onPressed: null)
+              ],
+            ),
+
+          ];
+        },
+        body: Center(
+            widthFactor: 1,
+            child:Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: ProductAdd(_addState),
+                  ),
+                  Expanded(child: Products(_products))
+
+                ],
+              ),
+            )
+        ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
         floatingActionButton: ClearProduct(_clearState),
-        appBar: AppBar(
-          title: Text('EasyList'),
-          backgroundColor: Color.fromRGBO(255, 0, 0, 1),
-          centerTitle:true,
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.search),iconSize: 28.0, onPressed:null,),
-            IconButton(icon: Icon(Icons.add_alarm),iconSize: 24.0,onPressed: null,),
-          ],
-
-        ),
         drawer: DrawerNo(),
-        body: SingleChildScrollView(
-          child: Center(
-              widthFactor: 1,
-              child:Center(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: ProductAdd(_addState),
-                    ),
-                    Products(_products)
+        body: _Nested(),
+      bottomNavigationBar: BottomNavigationBar(items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          title: Text('Home'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.business),
+          title: Text('Business'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.school),
+          title: Text('School'),
+        ),
+      ],
+        selectedItemColor: Colors.amber[800],
+        currentIndex: _selectedIndex,
+        onTap: (int index){
+        setState(() {
+          _selectedIndex = index;
+        });
+        },
+      ),
 
-                  ],
-                ),
-              )
-          ),
-        )
     ) ;
   }
 
