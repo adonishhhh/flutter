@@ -21,6 +21,16 @@ class ProductManager extends StatefulWidget{
 }
 
 class _ProductManager extends State<ProductManager>{
+  int photoIndex = 0;
+
+  List<String> photos = [
+    'assets/quote.jpg',
+    'assets/hotel.jpg',
+    'assets/shop.jpg',
+    'assets/travel.jpg'
+  ];
+
+
  List<String> _products = [];
  int _selectedIndex = 0;
  @override
